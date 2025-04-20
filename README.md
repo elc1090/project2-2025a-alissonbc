@@ -1,6 +1,6 @@
 # Projeto: desenvolvimento de aplicação com API web pública
 
-Imagens do **site criado**:
+Imagens do **site criado**:  
 ![screenshot](img/screenshot.png "screenshot")
 
 Acesso: 
