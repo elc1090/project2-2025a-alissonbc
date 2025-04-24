@@ -42,18 +42,9 @@ wgerForm.addEventListener('submit', function (e) {
                 title.textContent = translation.name;
             
                 const favButton = document.createElement('button');
-                favButton.className = 'btn btn-primary';
+                favButton.className = 'btn btn-outline-warning';
                 favButton.innerHTML = `<i class="bi bi-star"></i>`;
-                favButton.addEventListener('click', function() {
-                    favButton.classList.toggle('btn-primary');
-                    favButton.classList.toggle('btn-danger');
-                    if( favButton.classList.contains('btn-danger')) {
-                        favButton.innerHTML = `<i class="bi bi-star-fill"></i>`;
-                    }
-                    else {
-                        favButton.innerHTML = `<i class="bi bi-star"></i>`;
-                    }
-                });
+                favButton.addEventListener('click', toggleFavButton.bind(null, favButton));
 
                 titleRow.appendChild(title);
                 titleRow.appendChild(favButton);
@@ -72,4 +63,14 @@ wgerForm.addEventListener('submit', function (e) {
 
 function requestExercises(muscleId){
     return Promise.resolve(fetch(`https://wger.de/api/v2/exerciseinfo/?muscles=${muscleId}&language=${languageId}&limit=100`));
+}
+
+function toggleFavButton(button) {
+    button.classList.toggle('btn-warning');
+    button.classList.toggle('btn-outline-warning');
+    if (button.classList.contains('btn-warning')) {
+        button.innerHTML = `<i class="bi bi-star-fill"></i>`;
+    } else {
+        button.innerHTML = `<i class="bi bi-star"></i>`;
+    }
 }
