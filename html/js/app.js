@@ -1,4 +1,4 @@
-const languageId = 7; // talvez mudar para o usuario escolher, ou deixar ingles como default
+const languageId = 2; // talvez mudar para o usuario escolher, ou deixar ingles como default
 const wgerForm = document.getElementById('wgerForm');
 
 wgerForm.addEventListener('submit', function (e) {
@@ -34,15 +34,25 @@ wgerForm.addEventListener('submit', function (e) {
                 const card = document.createElement('div');
                 card.className = 'card h-100 p-3';
             
+                const titleRow = document.createElement('div');
+                titleRow.className = 'd-flex justify-content-between align-items-center';
+
                 const title = document.createElement('h5');
-                title.className = 'card-title';
+                title.className = 'card-title mb-0';
                 title.textContent = translation.name;
             
+                const favButton = document.createElement('button');
+                favButton.className = 'btn btn-primary';
+                favButton.textContent = 'Favoritar';
+
+                titleRow.appendChild(title);
+                titleRow.appendChild(favButton);
+
                 const desc = document.createElement('p');
                 desc.className = 'card-text';
                 desc.innerHTML = translation.description;
             
-                card.appendChild(title);
+                card.appendChild(titleRow);
                 card.appendChild(desc);
                 col.appendChild(card);
                 exerciseList.appendChild(col);
