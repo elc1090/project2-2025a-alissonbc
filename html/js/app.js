@@ -43,7 +43,17 @@ wgerForm.addEventListener('submit', function (e) {
             
                 const favButton = document.createElement('button');
                 favButton.className = 'btn btn-primary';
-                favButton.textContent = 'Favoritar';
+                favButton.innerHTML = `<i class="bi bi-star"></i>`;
+                favButton.addEventListener('click', function() {
+                    favButton.classList.toggle('btn-primary');
+                    favButton.classList.toggle('btn-danger');
+                    if( favButton.classList.contains('btn-danger')) {
+                        favButton.innerHTML = `<i class="bi bi-star-fill"></i>`;
+                    }
+                    else {
+                        favButton.innerHTML = `<i class="bi bi-star"></i>`;
+                    }
+                });
 
                 titleRow.appendChild(title);
                 titleRow.appendChild(favButton);
