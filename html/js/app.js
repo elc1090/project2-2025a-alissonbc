@@ -43,9 +43,10 @@ wgerForm.addEventListener('submit', function (e) {
                 title.className = 'card-title mb-0';
                 title.textContent = translation.name;
             
+                const isFav = isFavorited(ex.id);
                 const favButton = document.createElement('button');
-                favButton.className = 'btn btn-outline-warning';
-                favButton.innerHTML = `<i class="bi bi-star"></i>`;
+                favButton.className = isFav ? 'btn btn-warning' : 'btn btn-outline-warning';
+                favButton.innerHTML = isFav ? `<i class="bi bi-star-fill"></i>` : `<i class="bi bi-star"></i>`; 
                 favButton.addEventListener('click', () => toggleFavButton(favButton, exercideId));
 
                 titleRow.appendChild(title);
@@ -68,22 +69,26 @@ function requestExercises(muscleId){
 }
 
 function toggleFavButton(button, exerciseId) {
+    toggleFavorite(exerciseId);
 
-    const favIds = JSON.parse(localStorage.getItem('favorites')) || [];
-    if (favs.includes(exerciseId)) {
-        favs = favs.filter(id => id !== exerciseId);
+    const isFav = isFavorited(exerciseId);
+
+    button.classList.toggle('btn-warning', isFav);
+    button.classList.toggle('btn-outline-warning', !isFav);
+    button.innerHTML = isFav ? `<i class="bi bi-star-fill"></i>` : `<i class="bi bi-star"></i>`; 
+}
+
+function toggleFavorite(exerciseId) {
+    let favIds = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (favIds.includes(exerciseId)) {
+        favIds = favIds.filter(id => id !== exerciseId);
     } else {
-        favs.push(exerciseId);
+        favIds.push(exerciseId);
     }
-
-    button.classList.toggle('btn-warning');
-    button.classList.toggle('btn-outline-warning');
-    if (button.classList.contains('btn-warning')) {
-
-        button.innerHTML = `<i class="bi bi-star-fill"></i>`;
-    } else {
-        button.innerHTML = `<i class="bi bi-star"></i>`;
-    }
-
     localStorage.setItem('favorites', JSON.stringify(favIds));
+}
+
+function isFavorited(exerciseId) {
+    let favIds = JSON.parse(localStorage.getItem('favorites')) || [];
+    return favIds.includes(exerciseId);
 }
