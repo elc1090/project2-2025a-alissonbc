@@ -29,6 +29,11 @@ VS Code com as extensões:
 
 #### Referências e créditos
 
+Botão favoritar:
+https://vidafullstack.com.br/css/como-criar-um-botao-de-like-com-css-e-js/
+
+Favoritos localStorage:
+https://stackoverflow.com/questions/64830358/making-an-add-to-favorites-button-with-javascript
 
 
 

@@ -27,6 +27,8 @@ wgerForm.addEventListener('submit', function (e) {
             results.forEach(ex => {
                 const translation = ex.translations.find(t => t.language === languageId);
                 if (!translation) return;
+
+                const exercideId = ex.id;
             
                 const col = document.createElement('div');
                 col.className = 'col-md-4';
@@ -44,7 +46,7 @@ wgerForm.addEventListener('submit', function (e) {
                 const favButton = document.createElement('button');
                 favButton.className = 'btn btn-outline-warning';
                 favButton.innerHTML = `<i class="bi bi-star"></i>`;
-                favButton.addEventListener('click', toggleFavButton.bind(null, favButton));
+                favButton.addEventListener('click', () => toggleFavButton(favButton, exercideId));
 
                 titleRow.appendChild(title);
                 titleRow.appendChild(favButton);
@@ -65,12 +67,23 @@ function requestExercises(muscleId){
     return Promise.resolve(fetch(`https://wger.de/api/v2/exerciseinfo/?muscles=${muscleId}&language=${languageId}&limit=100`));
 }
 
-function toggleFavButton(button) {
+function toggleFavButton(button, exerciseId) {
+
+    const favIds = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (favs.includes(exerciseId)) {
+        favs = favs.filter(id => id !== exerciseId);
+    } else {
+        favs.push(exerciseId);
+    }
+
     button.classList.toggle('btn-warning');
     button.classList.toggle('btn-outline-warning');
     if (button.classList.contains('btn-warning')) {
+
         button.innerHTML = `<i class="bi bi-star-fill"></i>`;
     } else {
         button.innerHTML = `<i class="bi bi-star"></i>`;
     }
+
+    localStorage.setItem('favorites', JSON.stringify(favIds));
 }
