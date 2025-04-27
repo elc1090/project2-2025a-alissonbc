@@ -1,19 +1,25 @@
 const languageId = 2; // talvez mudar para o usuario escolher, ou deixar ingles como default
 const wgerForm = document.getElementById('wgerForm');
+const exercisesPerPage = 12;
 
 wgerForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
     const categoryId = document.getElementById('categoryInput').value;
-    const exerciseList = document.getElementById('exerciseList');
-    exerciseList.innerHTML = '';
 
     if (!categoryId) {
         alert("Escolha um músculo");
         return;
     }
 
-    requestExercises(categoryId)
+    loadExercises(categoryId);
+});
+
+function loadExercises(categoryId, page = 1) {
+    const exerciseList = document.getElementById('exerciseList');
+    exerciseList.innerHTML = '';
+
+    requestExercises(categoryId, page)
         .then(data => {
             const results = data.results;
 
@@ -60,15 +66,19 @@ wgerForm.addEventListener('submit', function (e) {
                 col.appendChild(card);
                 exerciseList.appendChild(col);
             });
-        })
-});
+            generatePagination(categoryId, data.count, page);
+        });
 
-function requestExercises(categoryId){
+}
+
+function requestExercises(categoryId, page){
+    const offset = (page - 1) * exercisesPerPage;
+
     if(categoryId === 'favoritos'){
         return requestFavorites();
     }
-    return Promise.resolve(fetch(`https://wger.de/api/v2/exerciseinfo/?category=${categoryId}&language=${languageId}&limit=30`))
-        .then(res => res.json());;
+    return fetch(`https://wger.de/api/v2/exerciseinfo/?category=${categoryId}&language=${languageId}&limit=${exercisesPerPage}&offset=${offset}`)
+        .then(res => res.json());
 }
 
 function requestFavorites() {
@@ -101,4 +111,24 @@ function toggleFavorite(exerciseId) {
 function isFavorited(exerciseId) {
     let favIds = JSON.parse(localStorage.getItem('favorites')) || [];
     return favIds.includes(exerciseId);
+}
+
+
+function generatePagination(categoryId, totalExercises, currentPage) {
+    const paginationContainer = document.getElementById('pagination');
+    paginationContainer.innerHTML = '';
+
+    const totalPages = Math.ceil(totalExercises / exercisesPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.className = `btn ${i === currentPage ? 'btn-primary' : 'btn-outline-primary'} m-1`;
+        btn.textContent = i;
+
+        btn.addEventListener('click', () => {
+            loadExercises(categoryId, i);
+        });
+
+        paginationContainer.appendChild(btn);
+    }
 }
