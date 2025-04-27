@@ -4,16 +4,16 @@ const wgerForm = document.getElementById('wgerForm');
 wgerForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const muscleId = document.getElementById('muscleInput').value;
+    const categoryId = document.getElementById('categoryInput').value;
     const exerciseList = document.getElementById('exerciseList');
     exerciseList.innerHTML = '';
 
-    if (!muscleId) {
+    if (!categoryId) {
         alert("Escolha um músculo");
         return;
     }
 
-    requestExercises(muscleId)
+    requestExercises(categoryId)
         .then(response => response.json())
         .then(data => {
             const results = data.results;
@@ -64,8 +64,8 @@ wgerForm.addEventListener('submit', function (e) {
         })
 });
 
-function requestExercises(muscleId){
-    return Promise.resolve(fetch(`https://wger.de/api/v2/exerciseinfo/?muscles=${muscleId}&language=${languageId}&limit=100`));
+function requestExercises(categoryId){
+    return Promise.resolve(fetch(`https://wger.de/api/v2/exerciseinfo/?category=${categoryId}&language=${languageId}&limit=30`));
 }
 
 function toggleFavButton(button, exerciseId) {
