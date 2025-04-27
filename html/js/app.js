@@ -14,7 +14,6 @@ wgerForm.addEventListener('submit', function (e) {
     }
 
     requestExercises(categoryId)
-        .then(response => response.json())
         .then(data => {
             const results = data.results;
 
@@ -65,7 +64,18 @@ wgerForm.addEventListener('submit', function (e) {
 });
 
 function requestExercises(categoryId){
-    return Promise.resolve(fetch(`https://wger.de/api/v2/exerciseinfo/?category=${categoryId}&language=${languageId}&limit=30`));
+    if(categoryId === 'favoritos'){
+        return requestFavorites();
+    }
+    return Promise.resolve(fetch(`https://wger.de/api/v2/exerciseinfo/?category=${categoryId}&language=${languageId}&limit=30`))
+        .then(res => res.json());;
+}
+
+function requestFavorites() {
+    const favIds = JSON.parse(localStorage.getItem('favorites')) || [];
+    const promises = favIds.map(id => fetch(`https://wger.de/api/v2/exerciseinfo/${id}/`).then(res => res.json()));
+    return Promise.all(promises)
+        .then(exercises => ({ results: exercises }));
 }
 
 function toggleFavButton(button, exerciseId) {

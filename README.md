@@ -35,6 +35,9 @@ https://vidafullstack.com.br/css/como-criar-um-botao-de-like-com-css-e-js/
 Favoritos localStorage:
 https://stackoverflow.com/questions/64830358/making-an-add-to-favorites-button-with-javascript
 
+Chat GPT, exemplo resumido de prompt:
+- Como passar vários IDs (dos exercicios favoritados) para a API retornar as descrições ?
+
 
 
 ---
