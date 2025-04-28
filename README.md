@@ -36,7 +36,8 @@ Favoritos localStorage:
 https://stackoverflow.com/questions/64830358/making-an-add-to-favorites-button-with-javascript
 
 Chat GPT, exemplo resumido de prompt:
-- Como passar vários IDs (dos exercicios favoritados) para a API retornar as descrições ?
+- Como passar vários IDs de exercicios para a API retornar suas descrições ? (exercicios favoritados)
+- Como adicionar imagens de uma url assim: "https://wger.de/static/muscles/muscular_system_front.svg" ?
 
 
 

@@ -29,11 +29,11 @@ function loadExercises(categoryId, page = 1) {
             }
 
 
-            results.forEach(ex => {
-                const translation = ex.translations.find(t => t.language === languageId);
+            results.forEach(exercise => {
+                const translation = exercise.translations.find(t => t.language === languageId);
                 if (!translation) return;
 
-                const exercideId = ex.id;
+                const exercideId = exercise.id;
             
                 const col = document.createElement('div');
                 col.className = 'col-md-4';
@@ -48,7 +48,7 @@ function loadExercises(categoryId, page = 1) {
                 title.className = 'card-title mb-0';
                 title.textContent = translation.name;
             
-                const isFav = isFavorited(ex.id);
+                const isFav = isFavorited(exercise.id);
                 const favButton = document.createElement('button');
                 favButton.className = isFav ? 'btn btn-warning' : 'btn btn-outline-warning';
                 favButton.innerHTML = isFav ? `<i class="bi bi-star-fill"></i>` : `<i class="bi bi-star"></i>`; 
@@ -60,8 +60,19 @@ function loadExercises(categoryId, page = 1) {
                 const desc = document.createElement('p');
                 desc.className = 'card-text';
                 desc.innerHTML = translation.description;
-            
+
+                const imagesContainer = document.createElement('div');
+                imagesContainer.style.display = 'flex';
+                imagesContainer.style.justifyContent = 'space-between';
+
+                const frontMuscleImage = createFrontMuscleImage(exercise);
+                const backMuscleImage = createBackMuscleImage(exercise);
+
+                imagesContainer.appendChild(frontMuscleImage);
+                imagesContainer.appendChild(backMuscleImage);
+                
                 card.appendChild(titleRow);
+                card.appendChild(imagesContainer);
                 card.appendChild(desc);
                 col.appendChild(card);
                 exerciseList.appendChild(col);
@@ -131,4 +142,46 @@ function generatePagination(categoryId, totalExercises, currentPage) {
 
         paginationContainer.appendChild(btn);
     }
+}
+
+function createFrontMuscleImage(exercise) {
+    const muscleImg = document.createElement('div');
+    muscleImg.style.height = '200px';
+    muscleImg.style.width = '100px';
+    muscleImg.style.backgroundRepeat = 'no-repeat';
+    muscleImg.style.backgroundSize = 'contain';
+    muscleImg.style.margin = 'auto';
+
+    const mainMuscles = exercise.muscles
+        .filter(muscle => muscle.is_front)
+        .map(muscle => `url('https://wger.de/static/react/muscles/main/muscle-${muscle.id}.svg')`);
+    const secondaryMuscles = exercise.muscles_secondary
+        .filter(muscle => muscle.is_front)
+        .map(muscle => `url('https://wger.de/static/react/muscles/secondary/muscle-${muscle.id}.svg')`);
+    const bodyBase = "url('https://wger.de/static/react/muscles/muscular_system_front.svg')";
+
+    muscleImg.style.backgroundImage = [...mainMuscles, ...secondaryMuscles, bodyBase].join(', ');
+
+    return muscleImg;
+}
+
+function createBackMuscleImage(exercise) {
+    const muscleImg = document.createElement('div');
+    muscleImg.style.height = '200px';
+    muscleImg.style.width = '100px';
+    muscleImg.style.backgroundRepeat = 'no-repeat';
+    muscleImg.style.backgroundSize = 'contain';
+    muscleImg.style.margin = 'auto';
+
+    const mainMuscles = exercise.muscles
+        .filter(muscle => !muscle.is_front)
+        .map(muscle => `url('https://wger.de/static/react/muscles/main/muscle-${muscle.id}.svg')`);
+    const secondaryMuscles = exercise.muscles_secondary
+        .filter(muscle => !muscle.is_front)
+        .map(muscle => `url('https://wger.de/static/react/muscles/secondary/muscle-${muscle.id}.svg')`);
+    const bodyBase = "url('https://wger.de/static/react/muscles/muscular_system_back.svg')";
+
+    muscleImg.style.backgroundImage = [...mainMuscles, ...secondaryMuscles, bodyBase].join(', ');
+
+    return muscleImg;
 }
