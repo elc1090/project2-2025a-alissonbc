@@ -12,20 +12,31 @@ Acesso:
 
 ##### Descrição
 
+É um site de listagem de exercícios, que faz uso da API Wger.
+Possui um dropdown para filtrar os exercícios por categoria. Os exercícios são listados em cards, com descrição, imagem dos músculos trabalhados e um botão para favoritar o exercício.
+Foi adicionado um limite de 12 exercícios por página com botões para navegação entre elas.
+Faz uso de localStorage para guardar o ID dos exercícios favoritados.
+
+
 
 #### Desenvolvimento
+Comecei usando como base o [Projeto2a](https://github.com/elc1090/project2a-2025a-meunomeali), que realiza requisições para a API do GitHub e cria cards formatados com as respostas (o Projeto2a, por sua vez, utilizou [este tutorial](https://codesnippet.io/github-api-tutorial/) como referência).
+Depois de entender como utilizar a API Wger, criei os cards com os dados que eu queria, nome e descrição do exercicio.
+Com os cards prontos, foquei em adicionar um botão de favoritar, que faz uso do localStorage. Como sei que o localStorage tem armazenamento pequeno, eu apenas armazeno o ID dos exercicios, já que a API permite pesquisa por ID.
+Para atender todos os requisitos da atividade, eu precisava adicionar imagens, mas percebi que a maioria dos exercicios não possuí imagem. Assim decidi usar como imagem os músculos trabalhados em cada exercicio, pois a maioria dos exercicios possuí uma lista de músculos, e a API tem imagens desses músculos.
+
 
 
 #### Tecnologias
 
 - HTML
-- CSS
+- Javascript
+- Bootstrap
 
 #### Ambiente de desenvolvimento
 
 VS Code com as extensões:
 - HTML CSS Support
-- CSS Peek
 
 #### Referências e créditos
 
