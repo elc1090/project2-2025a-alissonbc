@@ -1,4 +1,4 @@
-const languageId = 2; // talvez mudar para o usuario escolher, ou deixar ingles como default
+let languageId = 7; // portugues por padrao, se tiver tradução, mostra em ingles
 const wgerForm = document.getElementById('wgerForm');
 const exercisesPerPage = 12;
 
@@ -30,8 +30,13 @@ function loadExercises(categoryId, page = 1) {
 
 
             results.forEach(exercise => {
-                const translation = exercise.translations.find(t => t.language === languageId);
-                if (!translation) return;
+                let translation = exercise.translations.find(t => t.language === languageId);
+
+                if (!translation){
+                    translation = exercise.translations.find(t => t.language === 2);
+                }
+
+                if (!translation) return
 
                 const exercideId = exercise.id;
             
@@ -123,7 +128,6 @@ function isFavorited(exerciseId) {
     let favIds = JSON.parse(localStorage.getItem('favorites')) || [];
     return favIds.includes(exerciseId);
 }
-
 
 function generatePagination(categoryId, totalExercises, currentPage) {
     const paginationContainer = document.getElementById('pagination');
