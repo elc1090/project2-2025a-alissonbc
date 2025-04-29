@@ -3,7 +3,7 @@
 Imagens do **site criado**:  
 ![screenshot](img/screenshot.png "screenshot")
 
-Acesso: 
+Acesso: https://elc1090.github.io/project2-2025a-alissonbc/html/
 
 
 #### Desenvolvedor
